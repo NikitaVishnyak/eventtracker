@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign In - eventtracker{% endblock %}
+
+{% block content %}
+    <div class="register login-page">
+        <div class="form">
+            <form class="register-form" method="post">
+                {% csrf_token %}
+                <div class="form-error">{{ form.non_field_errors }}</div>
+                {% for f in form %}
+                    <p>{{ f }}</p>
+                    <div class="form-error">{{ f.errors }}</div>
+                {% endfor %}
+                <button type="submit">SIGN IN</button>
+                <p class="message">Not registered? <a href="{% url 'sign up' %}">Create an account</a></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

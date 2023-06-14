@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Add your event - eventtracker{% endblock %}
+
+{% block content %}
+    <h3>Thank you for your request!</h3>
+    <p>Your event has been saved but not yet added to the site.</p>
+    <p>It will be published after confirmation. This usually takes one business day.</p>
+    <a href="{% url 'home' %}">Return on home page</a>
+{% endblock %}

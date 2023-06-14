@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Add your event - eventtracker{% endblock %}
+
+{% block content %}
+    <h3>Add Event</h3>
+    <div class="register login-page">
+        <div class="form">
+            <form class="register-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_country').change(function() {
+                var countryId = $(this).val();
+                $.ajax({
+                    url: '/get-cities/',
+                    data: {'country_id': countryId},
+                    dataType: 'json',
+                    success: function(data) {
+                        var citySelect = $('#id_city');
+                        citySelect.empty();
+                        $.each(data, function(key, value) {
+                            citySelect.append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

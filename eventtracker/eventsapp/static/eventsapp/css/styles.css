@@ -1,0 +1,330 @@
+html, body {
+    font-family: "Montserrat", Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 20px 0px 20px 0px;
+    font-weight: bold;
+    color: #004565;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+.h2-additional {
+    margin: auto;
+    color: #004565;
+    padding-bottom: 10px;
+}
+
+.h2-center{
+    display: flex;
+    justify-content: center;
+}
+
+h3 {
+    font-size: 23px;
+}
+
+.container {
+    position: relative;
+    overflow: hidden;
+    min-height: 730px;
+}
+
+.toggle-menu {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    position: relative;
+    top: 20px;
+    right: 10px;
+    float: right;
+    z-index: 1000;
+}
+
+.toggle-menu i {
+    position: absolute;
+    display: block;
+    height: 2px;
+    background: #3fb3e3;
+    width: 30px;
+    left: 0px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.toggle-menu i:nth-child(1) {
+    top: 16px;
+}
+
+.toggle-menu i:nth-child(2) {
+    top: 24px;
+}
+
+.toggle-menu i:nth-child(3) {
+    top: 32px;
+}
+
+.toggle-menu.active i:nth-child(1) {
+    top: 25px;
+    -webkit-transform: rotateZ(45deg);
+    transform: rotateZ(45deg);
+    background: #fff;
+}
+
+.toggle-menu.active i:nth-child(2) {
+    background: transparent;
+}
+
+.toggle-menu.active i:nth-child(3) {
+    top: 25px;
+    -webkit-transform: rotateZ(-45deg);
+    transform: rotateZ(-45deg);
+    background: #fff;
+}
+
+.menu-drawer {
+    width: 400px;
+    background-color: #004466;
+    position: absolute;
+    right: -550px;
+    top: 0;
+    transition: right linear 0.2s;
+    padding: 50px 50px 20px 50px;
+    z-index: 2;
+}
+
+.menu-drawer li {
+    font-family: lato;
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-size: 50px;
+    text-align: center;
+}
+.menu-drawer li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0px 0px 0px 0px;
+    margin: 50px 0px 50px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.menu-drawer li a:hover {
+    color: #98e2ff;
+    transition-duration: 300ms;
+}
+
+.menu-drawer ul {
+    padding-left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menu-drawer ul li {
+    list-style-type: none;
+}
+
+.menu-drawer form {
+    display: flex;
+    align-items: center;
+}
+
+.menu-drawer input {
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    color: #fff!important;
+    border: none;
+    background: #004466!important;
+    font-family: lato;
+    max-width: 150px;
+    padding: 0px;
+}
+
+.menu-drawer input::placeholder {
+    font-family: lato;
+    font-weight: bold;
+    font-size: 50px;
+    color: #fff;
+    padding: 0px;
+}
+
+.menu-drawer input[type="text"] {
+    color: #fff;
+    padding-left: 40px;
+    font-family: lato;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.mainmenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0px 50px 0px 0px;
+}
+
+.logo {
+    height: 65px;
+    margin: 0px 0px 0px 10px
+}
+
+.content-text {
+    width: 60%;
+    margin: 10px auto;
+    margin-bottom: 90px;
+}
+
+.content-text ul {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.open {
+    right: 0px;
+    transition: right linear 0.2s;
+}
+
+input:focus {
+    outline: none;
+}
+
+#footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #004665;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+
+    padding: 8px 50px 8px 0px;
+    height: 64px;
+    width: 100%;
+}
+
+#footer p:nth-child(1) {
+    margin-left: 5%;
+}
+
+#footer p:nth-child(2) {
+    margin-right: 5%;
+}
+
+.form-input {
+    width: 300px;
+    font-size: 16px;
+}
+
+.form-label {
+    display: inline-block;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.form-error ul {
+    list-style: none;
+    padding: 0;
+    margin: 0px 0px 10px 0px;
+    color: #CC0000;
+}
+
+.form-button {
+    min-width: 200px;
+    font-size: 16px;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #008cbc;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+    background: #02749c;
+    transition-duration: 300ms;
+}
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form .message a {
+    color: #aac8fa;
+    text-decoration: none;
+}
+
+:root {
+  --background-gradient: linear-gradient(30deg, #f39c12 30%, #f1c40f);
+  --gray: #34495e;
+  --darkgray: #2c3e50;
+}
+
+select {
+  /* Reset Select */
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  padding: 0 1em;
+  color: #000;
+  background-color: #f2f2f2;
+  background-image: none;
+  cursor: pointer;
+  width: 360px;
+  height: 49px;
+}
+
+textarea {
+  width: 360px;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #f2f2f2;
+  background-color: #f2f2f2;
+  resize: none;
+}
+

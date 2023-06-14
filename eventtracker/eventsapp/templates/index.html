@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}eventtracker{% endblock %}
+
+{% block content %}
+    <h1>Events</h1>
+    <ul>
+        {% for event in events %}
+            <li>{{ event }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

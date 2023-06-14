@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ custom_user.get_full_name }} - eventtracker{% endblock %}
+
+{% block content %}
+    <h1>{{ custom_user.get_full_name }}</h1>
+    <ul>
+        <li>E-mail: {{ custom_user.email }}</li>
+        <li><a href="{% url 'add_event' %}">Add your event</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+{% endblock %}

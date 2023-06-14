@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ city_name }} - eventtracker{% endblock %}
+
+{% block content %}
+    {% for event in city_events %}
+        <p>{{ event.title }}</p>
+        <p>{{ event.description }}</p>
+    {% empty %}
+        <p>No events found for this city.</p>
+    {% endfor %}
+{% endblock %}

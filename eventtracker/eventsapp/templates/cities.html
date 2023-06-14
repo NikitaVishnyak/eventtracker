@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Cities - eventtracker{% endblock %}
+
+{% block content %}
+    {% for country, events in data.items %}
+        <h3>{{ country }}</h3>
+        <ul>
+            {% for event in events %}
+                <li>{{ event.city }}</li>
+                <a href="{% url 'city_events' city_name=event.city.name %}">View events</a>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link type="text/css" href="{% static 'eventsapp/css/styles.css' %}" rel="stylesheet"/>
+    <link rel="shortcut icon" href="{% static 'eventsapp/images/main.ico' %}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<a class="toggle-menu" href="#">
+			<i></i>
+			<i></i>
+			<i></i>
+		</a>
+	<div class="menu-drawer">
+		<ul>
+			<li>
+			<form action="#" method="get">
+				<input type="text" autocomplete="off"
+				placeholder="Search"
+				name="q" required>
+            	<i class="fa fa-magnifying-glass"></i>
+			</form>
+			</li>
+			<li><a href="{% url 'home' %}">Events</a></li>
+			<li><a href="{% url 'cities_list' %}">Find your city</a></li>
+			{% if request.user.is_authenticated %}
+			<li><a href="{% url 'profile' user_slug=user.slug %}">Profile</a></li>
+			{% else %}
+			<li><a href="{% url 'login' %}">Login</a></li>
+			{% endif %}
+		</ul>
+	</div>
+
+	{% block mainmenu %}
+	<div class="header">
+		<ul id="mainmenu" class="mainmenu">
+		<li class="logo"><a href="{% url 'home' %}"><img src="#" class="logo"></img></a></li>
+		<h1>eventtracker</h1>
+		</ul>
+		<hr>
+	</div>
+	{% endblock mainmenu %}
+
+	<div class="content-text">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+	<div id="footer">
+		<p>Mykyta Vyshniak</p>
+		<p>&copy; 2023 All rights reserved.</p>
+	</div>
+
+	<script src="{% static 'eventsapp/js/jquery-3.6.3.min.js' %}"></script>
+	<script src="{% static 'eventsapp/js/script.js' %}"></script>
+</body>
+</html>
