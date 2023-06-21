@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'cities_light',
+    'verify_email.apps.VerifyEmailConfig',
 
     'eventsapp.apps.EventsappConfig',
     'users.apps.UsersConfig',
@@ -144,3 +145,29 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
+
+DEFAULT_FROM_EMAIL = 'noreply<no_reply@eventtracker.com>'
+
+LOGIN_URL = 'login'
+
+EXPIRE_AFTER = "3m"
+
+SUBJECT = 'EventTracker Email Verification'
+
+VERIFICATION_SUCCESS_TEMPLATE = "success.html"
+
+VERIFICATION_FAILED_TEMPLATE = "failed.html"
+
+LINK_EXPIRED_TEMPLATE = 'expired.html'
+
+REQUEST_NEW_EMAIL_TEMPLATE = 'request_new_email.html'
+
+NEW_EMAIL_SENT_TEMPLATE = 'new_email_sent.html'

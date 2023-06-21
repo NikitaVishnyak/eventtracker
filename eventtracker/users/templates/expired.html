@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - eventtracker{% endblock %}
+
+{% block content %}
+    <h3>Oops... This link is expired!</h3>
+    <p>You can request new link:</p>
+    <a href="{% url 'request-new-link-from-email' %}">Request new link</a>
+{% endblock %}

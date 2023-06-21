@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from django.views.decorators.http import require_GET
 from django.views.generic import CreateView, TemplateView
 from rest_framework import viewsets
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.views import APIView
@@ -131,3 +131,8 @@ class SuccessAddView(TemplateView):
         if not request.session.get('event_added'):
             raise Http404("Event not added")
         return super().dispatch(request, *args, **kwargs)
+
+
+def set_home_page(request):
+    return redirect('home')
+

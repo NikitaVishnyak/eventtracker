@@ -53,7 +53,7 @@ class CustomUsers(AbstractUser):
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
-        verbose_name_plural = 'CustomUsers'
+        verbose_name_plural = 'Users'
 
 
 @receiver(post_save, sender=CustomUsers)

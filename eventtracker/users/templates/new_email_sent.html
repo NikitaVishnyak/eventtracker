@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - eventtracker{% endblock %}
+
+{% block content %}
+    <h3>Confirmation mail has been sent!</h3>
+    <p>Please check your email and click the 'Verify' button.</p>
+    <a href="{% url 'request_new_email' %}">Resend email</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - eventtracker{% endblock %}
+
+{% block content %}
+    <div class="form">
+        <form class="register-form" method='POST' >
+                {% csrf_token %}
+
+                <fieldset>
+                    {{form}}
+                </fieldset>
+
+                <div style="margin-top: 50px;">
+                    <button class="form-button-request-new-email" type="submit">Request New Email</button>
+                </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,9 +1,11 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, TemplateView
 from rest_framework.views import APIView
+
+from verify_email.email_handler import send_verification_email
 
 from users.forms import LoginUserForm, RegisterUserForm
 from users.models import CustomUsers
@@ -23,9 +25,13 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('home')
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+
+        send_verification_email(self.request, form)
+
+        return redirect('email_sent')
 
 
 def logout_user(request):
@@ -40,3 +46,11 @@ class ProfileViewSet(APIView):
             'custom_user': custom_user,
         }
         return render(request, 'profile.html', context)
+
+
+class RequestNewEmailView(TemplateView):
+    template_name = 'request_new_email.html'
+
+
+class EmailSentView(TemplateView):
+    template_name = 'new_email_sent.html'

@@ -1,5 +1,6 @@
 from cities_light.models import City
 from django import forms
+from django.utils import timezone
 
 from eventsapp.models import Events
 
@@ -38,3 +39,17 @@ class AddEventForm(forms.ModelForm):
         if city and country and city.country != country:
             raise forms.ValidationError("City does not belong to selected country.")
         return city
+
+    def clean_start_time(self):
+        start_time = self.cleaned_data.get('start_time')
+        current_time = timezone.now()
+        if start_time.date() == current_time.date() or start_time < current_time:
+            raise forms.ValidationError("The start time of the event cannot be on the current day or earlier.")
+        return start_time
+
+    def clean_end_time(self):
+        end_time = self.cleaned_data.get('end_time')
+        start_time = self.cleaned_data.get('start_time')
+        if start_time and end_time and start_time >= end_time:
+            raise forms.ValidationError("The start time of the event must be less than the end time.")
+        return end_time

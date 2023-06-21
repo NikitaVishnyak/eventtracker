@@ -7,11 +7,15 @@ html, body {
     position: relative;
 }
 
+.header {
+    background-color: #ff283e;
+}
+
 h1 {
+    color: #ff283e;
     font-size: 2.5rem;
     margin: 20px 0px 20px 0px;
     font-weight: bold;
-    color: #004565;
 }
 
 h2 {
@@ -20,7 +24,7 @@ h2 {
 
 .h2-additional {
     margin: auto;
-    color: #004565;
+    color: #ff283e;
     padding-bottom: 10px;
 }
 
@@ -44,7 +48,7 @@ h3 {
     height: 50px;
     display: inline-block;
     position: relative;
-    top: 20px;
+    top: 7.5px;
     right: 10px;
     float: right;
     z-index: 1000;
@@ -54,7 +58,7 @@ h3 {
     position: absolute;
     display: block;
     height: 2px;
-    background: #3fb3e3;
+    background: #fff;
     width: 30px;
     left: 0px;
     -webkit-transition: all 0.3s;
@@ -93,7 +97,7 @@ h3 {
 
 .menu-drawer {
     width: 400px;
-    background-color: #004466;
+    background-color: #ff283e;
     position: absolute;
     right: -550px;
     top: 0;
@@ -115,11 +119,6 @@ h3 {
     padding: 0px 0px 0px 0px;
     margin: 50px 0px 50px 0px;
     padding: 0px 0px 0px 0px;
-}
-
-.menu-drawer li a:hover {
-    color: #98e2ff;
-    transition-duration: 300ms;
 }
 
 .menu-drawer ul {
@@ -145,7 +144,7 @@ h3 {
     height: 50px;
     color: #fff!important;
     border: none;
-    background: #004466!important;
+    background: #ff283e!important;
     font-family: lato;
     max-width: 150px;
     padding: 0px;
@@ -177,8 +176,11 @@ h3 {
 }
 
 .logo {
-    height: 65px;
-    margin: 0px 0px 0px 10px
+    height: 25px;
+    margin: 20px;
+
+    display: flex;
+    align-items: center;
 }
 
 .content-text {
@@ -205,13 +207,13 @@ input:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #004665;
+    background-color: #ff283e;
     color: #fff;
     position: absolute;
     bottom: 0;
 
     padding: 8px 50px 8px 0px;
-    height: 64px;
+    height: 40px;
     width: 100%;
 }
 
@@ -271,7 +273,7 @@ input:focus {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #008cbc;
+    background: #ff283e;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -282,7 +284,7 @@ input:focus {
     cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-    background: #02749c;
+    background: #e82337;
     transition-duration: 300ms;
 }
 .form .message {
@@ -291,7 +293,7 @@ input:focus {
     font-size: 12px;
 }
 .form .message a {
-    color: #aac8fa;
+    color: #fc4255;
     text-decoration: none;
 }
 
@@ -328,3 +330,12 @@ textarea {
   resize: none;
 }
 
+fieldset {
+    border: none;
+}
+
+.form-button-request-new-email {
+    min-width: 200px;
+    font-size: 16px;
+    margin-top: -15px;
+}
