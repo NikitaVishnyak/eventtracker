@@ -3,10 +3,21 @@
 {% block title %}{{ city_name }} - eventtracker{% endblock %}
 
 {% block content %}
-    {% for event in city_events %}
-        <p>{{ event.title }}</p>
-        <p>{{ event.description }}</p>
-    {% empty %}
-        <p>No events found for this city.</p>
-    {% endfor %}
+    <ul class="event_grid">
+        {% for event in city_events %}
+            <a href="{{ event.get_absolute_url }}" class="event-container-link">
+                    <div class="event_container">
+                        <div class="image-container">
+                            <img src="{{ event.image.url }}" alt="Event Image">
+                        </div>
+                        <h3>
+                            {{ event }}
+                        </h3>
+                        {{ event.start_time }}
+                    </div>
+                </a>
+        {% empty %}
+            <p>No events found for this city.</p>
+        {% endfor %}
+    </ul>
 {% endblock %}

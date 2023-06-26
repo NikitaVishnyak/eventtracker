@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.decorators.http import require_GET
 from django.views.generic import CreateView, TemplateView
+import folium
+
 from rest_framework import viewsets
 from django.shortcuts import render, redirect
 from rest_framework.exceptions import PermissionDenied
@@ -32,6 +34,7 @@ class EventsViewSet(viewsets.ModelViewSet):
     queryset = Events.objects.all()
     serializer_class = EventsSerializer
     title = "eventtracker"
+    lookup_field = 'slug'
 
     def get_permissions(self):
         if self.action == 'destroy':
@@ -70,6 +73,15 @@ class EventsViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         events = self.get_queryset().filter(is_confirmed=True).order_by('-id')
         return render(request, 'index.html', {'events': events})
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        latitude, longitude = instance.get_coordinates()
+        map = folium.Map(location=[latitude, longitude], zoom_start=12)
+        folium.Marker([latitude, longitude], popup=instance.title).add_to(map)
+        map_html = map._repr_html_()
+        return render(request, 'concrete_event.html', {'event': instance, 'map_html': map_html, 'available_tickets': instance.available_tickets()})
 
 
 class CityView(viewsets.ModelViewSet):

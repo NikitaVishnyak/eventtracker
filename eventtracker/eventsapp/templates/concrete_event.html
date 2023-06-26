@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - eventtracker{% endblock %}
+
+{% block content %}
+    <div class="concrete-event-image">
+        <img src="{{ event.image.url }}" alt="Concrete Event Image">
+    </div>
+    <h1>{{ event.title }}</h1>
+    <ul>
+        <li>{{ event.description }}</li>
+        <li>{{ event.category }}</li>
+        <li>start: {{ event.start_time }}</li>
+        <li>end: {{ event.end_time }}</li>
+        <li>{{ event.city }}</li>
+        <li>tickets left: {{ available_tickets }}</li>
+    </ul>
+    {% if available_tickets > 0 %}
+        <a href="#">Purchase</a>
+    {% endif %}
+    {{ map_html|safe }}
+{% endblock %}

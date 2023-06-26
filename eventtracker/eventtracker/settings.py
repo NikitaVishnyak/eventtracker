@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'eventsapp.apps.EventsappConfig',
     'users.apps.UsersConfig',
+    'tickets.apps.TicketsConfig',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +131,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = []
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -171,3 +175,5 @@ LINK_EXPIRED_TEMPLATE = 'expired.html'
 REQUEST_NEW_EMAIL_TEMPLATE = 'request_new_email.html'
 
 NEW_EMAIL_SENT_TEMPLATE = 'new_email_sent.html'
+
+MAPQUEST_API_KEY = os.environ.get('MAPQUEST_KEY')

@@ -4,9 +4,19 @@
 
 {% block content %}
     <h1>Events</h1>
-    <ul>
+    <ul class="event_grid">
         {% for event in events %}
-            <li>{{ event }}</li>
+            <a href="{{ event.get_absolute_url }}" class="event-container-link">
+                <div class="event_container">
+                    <div class="image-container">
+                        <img src="{{ event.image.url }}" alt="Event Image">
+                    </div>
+                    <h3>
+                        {{ event }}
+                    </h3>
+                    {{ event.start_time }}
+                </div>
+            </a>
         {% endfor %}
     </ul>
 {% endblock %}

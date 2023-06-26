@@ -8,7 +8,7 @@ from eventsapp.models import Events
 class AddEventForm(forms.ModelForm):
     class Meta:
         model = Events
-        fields = ['title', 'description', 'start_time', 'end_time', 'country', 'city', 'category']
+        fields = ['title', 'description', 'start_time', 'end_time', 'country', 'city', 'address', 'category', 'ticket_quantity', 'image']
         widgets = {
             'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
