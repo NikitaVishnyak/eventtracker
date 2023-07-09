@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Orders - eventtracker{% endblock %}
+
+{% block content %}
+    <h1>My Purchased Tickets</h1>
+    <ul>
+        {% for ticket in tickets %}
+            <li>
+                {{ ticket.event.title }}: {{ ticket.quantity }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'cities_light',
     'verify_email.apps.VerifyEmailConfig',
+    'payments',
 
     'eventsapp.apps.EventsappConfig',
     'users.apps.UsersConfig',
@@ -177,3 +178,20 @@ REQUEST_NEW_EMAIL_TEMPLATE = 'request_new_email.html'
 NEW_EMAIL_SENT_TEMPLATE = 'new_email_sent.html'
 
 MAPQUEST_API_KEY = os.environ.get('MAPQUEST_KEY')
+
+
+PAYMENT_HOST = '127.0.0.1:8000'
+
+PAYMENT_USES_SSL = False
+
+PAYMENT_MODEL = 'tickets.Payment'
+
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE')
+
+PAYMENT_VARIANTS = {
+    'stripe': ('payments.stripe.StripeProvider', {
+        'secret_key': STRIPE_SECRET_KEY,
+        'public_key': STRIPE_PUBLISHABLE_KEY
+    })
+}

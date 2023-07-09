@@ -1,5 +1,6 @@
 import requests
 from django.db import models
+from django.db.models import Sum
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -14,6 +15,7 @@ class Events(models.Model):
     description = models.TextField(max_length=1000)
     organizer = models.ForeignKey('users.CustomUsers', on_delete=models.CASCADE)
     ticket_quantity = models.PositiveIntegerField(default=0)
+    ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
@@ -30,8 +32,12 @@ class Events(models.Model):
     def get_absolute_url(self):
         return reverse('concrete_event', kwargs={'slug': self.slug})
 
+    def get_add_to_cart_url(self):
+        return reverse('add_to_cart', kwargs={'slug': self.slug})
+
     def available_tickets(self):
-        return self.ticket_quantity - Tickets.objects.filter(event=self).count()
+        purchased_tickets = Tickets.objects.filter(event=self).aggregate(Sum('quantity'))['quantity__sum'] or 0
+        return self.ticket_quantity - purchased_tickets
 
     def get_coordinates(self):
         full_address = f"{self.address}, {self.city.display_name}"

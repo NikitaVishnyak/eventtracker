@@ -1,35 +1,33 @@
-from datetime import timedelta
-
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
+
+User = get_user_model()
 
 
 class Tickets(models.Model):
     event = models.ForeignKey('eventsapp.Events', on_delete=models.CASCADE)
-    user = models.ForeignKey('users.CustomUsers', on_delete=models.SET_NULL, null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    reservation_duration = models.DurationField(default=timedelta(minutes=15))
-    reservation_time = models.DateTimeField(null=True, blank=True)
-    is_reserved = models.BooleanField(default=False)
+    price = models.IntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(default=timezone.now)
+    is_paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.event.title}"
 
 
-    def reserve_ticket(self, user):
-        if self.reservation_time is None:
-            self.reservation_time = timezone.now()
-            self.user = user
-            self.is_reserved = True
-            self.save()
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tickets = models.ManyToManyField('Tickets')
+    last_updated = models.DateTimeField(auto_now=True)
 
-    def is_reservation_expired(self):
-        if self.reservation_time is None:
-            return False
+    def __str__(self):
+        return f"Cart for {self.user.email}"
 
-        expiration_time = self.reservation_time + self.reservation_duration
-        return timezone.now() > expiration_time
-
-    def release_reservation(self):
-        if self.is_reservation_expired():
-            self.is_reserved = False
-            self.user = None
-            self.reservation_time = None
-            self.save()
+    def get_metadata(self):
+        metadata = {
+            'cart_id': self.id,
+            'user_email': self.user.email,
+        }
+        return metadata

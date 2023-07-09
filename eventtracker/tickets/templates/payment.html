@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - eventtracker{% endblock %}
+
+{% block content %}
+    <h1>Payment</h1>
+
+    <form action="{{ form.action }}" method="{{ form.method }}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="submit" value="Proceed" /></p>
+    </form>
+{% endblock %}

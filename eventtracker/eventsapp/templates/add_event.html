@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Add your event - eventtracker{% endblock %}
+{% block title %}Add my event - eventtracker{% endblock %}
 
 {% block content %}
     <h3>Add Event</h3>
     <div class="register login-page">
         <div class="form">
-            <form class="register-form" method="post">
+            <form class="register-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit">Add</button>

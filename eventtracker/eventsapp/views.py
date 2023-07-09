@@ -1,4 +1,5 @@
 from cities_light.models import City
+from django.core.paginator import Paginator
 from django.http import JsonResponse, Http404
 from django.urls import reverse_lazy
 from django.utils.text import slugify
@@ -35,6 +36,7 @@ class EventsViewSet(viewsets.ModelViewSet):
     serializer_class = EventsSerializer
     title = "eventtracker"
     lookup_field = 'slug'
+    paginate_by = 9
 
     def get_permissions(self):
         if self.action == 'destroy':
@@ -65,26 +67,31 @@ class EventsViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
 
         if not request.user.is_staff or (
-                instance.organizer != request.user and 'is_confirmed' not in request.data and not request.data['is_confirmed']):
+                instance.organizer != request.user and 'is_confirmed' not in request.data and not request.data[
+            'is_confirmed']):
             raise PermissionDenied("You do not have permission to edit this event.")
 
         return super().update(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
         events = self.get_queryset().filter(is_confirmed=True).order_by('-id')
-        return render(request, 'index.html', {'events': events})
+        paginator = Paginator(events, self.paginate_by)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'index.html', {'page_obj': page_obj})
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
 
         latitude, longitude = instance.get_coordinates()
-        map = folium.Map(location=[latitude, longitude], zoom_start=12)
+        map = folium.Map(location=[latitude, longitude], zoom_start=16, max_zoom=18, min_zoom=6)
         folium.Marker([latitude, longitude], popup=instance.title).add_to(map)
         map_html = map._repr_html_()
-        return render(request, 'concrete_event.html', {'event': instance, 'map_html': map_html, 'available_tickets': instance.available_tickets()})
+        return render(request, 'concrete_event.html',
+                      {'event': instance, 'map_html': map_html, 'available_tickets': instance.available_tickets()})
 
 
-class CityView(viewsets.ModelViewSet):
+class CityViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         events = Events.objects.select_related('country').order_by('country__name')
 
@@ -101,12 +108,18 @@ class CityView(viewsets.ModelViewSet):
         return render(request, 'cities.html', {'data': data})
 
 
-class CityEventsView(APIView):
+class CityEventsViewSet(APIView):
+    paginate_by = 9
+
     def get(self, request, city_name):
         city_events = Events.objects.filter(city__name=city_name)
+        paginator = Paginator(city_events, self.paginate_by)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         context = {
             'city_events': city_events,
             'city_name': city_name,
+            'page_obj': page_obj,
         }
         return render(request, 'city_events.html', context)
 
@@ -147,4 +160,3 @@ class SuccessAddView(TemplateView):
 
 def set_home_page(request):
     return redirect('home')
-

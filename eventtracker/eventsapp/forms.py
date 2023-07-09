@@ -14,15 +14,19 @@ class AddEventForm(forms.ModelForm):
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'country': forms.Select(attrs={'id': 'id_country'}),
             'city': forms.Select(attrs={'id': 'id_city'}),
+            'address': forms.TextInput(attrs={'placeholder': 'example: YourStreetName 1'}),
         }
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)  # Отримати об'єкт request
+        self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
+        self.fields['country'].empty_label = "choose country"
         country = self['country'].value()
+        self.fields['category'].empty_label = "choose category"
         if country:
             self.fields['city'].queryset = City.objects.filter(country_id=country)
         else:
+            self.fields['city'].empty_label = "choose city"
             self.fields['city'].queryset = City.objects.none()
 
     def save(self, commit=True):
