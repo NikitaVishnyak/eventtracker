@@ -14,8 +14,8 @@
             {% for ticket in tickets %}
                 <hr>
                 <div class="cart-ticket">
-                    <li>{{ ticket.event.title }} ({{ ticket.quantity }}x)</li>
                     <li>{{ ticket.event.ticket_price }}€</li>
+                    <li>{{ ticket.event.title }} </li>
                     <li>
                         <form action="{% url 'remove_from_cart' ticket.event.slug %}" method="post">
                         {% csrf_token %}

@@ -7,9 +7,13 @@
         <h3>{{ country }}</h3>
         <ul>
             {% for event in events %}
-                <li>{{ event.city }}</li>
-                <a href="{% url 'city_events' city_name=event.city.name %}">View events</a>
+                <hr>
+                <div class="city-container">
+                    <li>{{ event.city }}</li>
+                    <a href="{% url 'city_events' city_name=event.city.name %}">View events</a>
+                </div>
             {% endfor %}
+            <hr>
         </ul>
     {% endfor %}
 {% endblock %}

@@ -36,8 +36,7 @@ class Events(models.Model):
         return reverse('add_to_cart', kwargs={'slug': self.slug})
 
     def available_tickets(self):
-        purchased_tickets = Tickets.objects.filter(event=self).aggregate(Sum('quantity'))['quantity__sum'] or 0
-        return self.ticket_quantity - purchased_tickets
+        return self.ticket_quantity - Tickets.objects.filter(event=self).count()
 
     def get_coordinates(self):
         full_address = f"{self.address}, {self.city.display_name}"
@@ -75,6 +74,9 @@ class EventCategories(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('category_events', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name_plural = 'EventCategories'

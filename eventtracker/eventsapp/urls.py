@@ -1,6 +1,7 @@
 from django.urls import path, include
 
-from eventsapp.views import EventsViewSet, CityViewSet, CityEventsViewSet, AddEventView, get_cities, SuccessAddView
+from eventsapp.views import EventsViewSet, CityViewSet, CityEventsViewSet, AddEventView, get_cities, SuccessAddView, \
+    EventCategoriesViewSet, CategoryEventsViewSet
 
 urlpatterns = [
     path('api/v1/events/', EventsViewSet.as_view({'get': 'list'}), name='home'),
@@ -10,4 +11,6 @@ urlpatterns = [
     path('get-cities/', get_cities, name='get_cities'),
     path('add-event/success-add/', SuccessAddView.as_view(), name='success_add'),
     path('api/v1/events/<str:slug>/', EventsViewSet.as_view({'get': 'retrieve'}), name='concrete_event'),
+    path('api/v1/categories/', EventCategoriesViewSet.as_view({'get': 'list'}), name='categories'),
+    path('api/v1/categories/<str:slug>/', CategoryEventsViewSet.as_view({'get': 'list'}), name='category_events'),
 ]

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'eventsapp.apps.EventsappConfig',
     'users.apps.UsersConfig',
     'tickets.apps.TicketsConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [

@@ -2,36 +2,41 @@ from datetime import timedelta
 
 import stripe
 from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView
+from reportlab.graphics.shapes import Rect, Drawing
 
 from eventsapp.models import Events
 from tickets.models import Tickets, Cart
 from django.shortcuts import redirect
 
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+from reportlab.lib.units import inch
+from io import BytesIO
+
+from django.templatetags.static import static
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class AddToCartView(View):
-    def get(self, request, slug):
-        event = get_object_or_404(Events, slug=slug)
-        return render(request, 'add_to_cart.html', {'event': event})
-
     def post(self, request, slug):
         event = get_object_or_404(Events, slug=slug)
-        ticket_quantity = int(request.POST.get('ticket_quantity', 0))
         price = event.ticket_price * 100
 
-        if ticket_quantity > 0:
-            cart, created = Cart.objects.get_or_create(user=request.user)
-            tickets = Tickets.objects.create(event=event, user=request.user, price=price)
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        ticket = Tickets.objects.create(event=event, user=request.user, price=price)
 
-            tickets.quantity += ticket_quantity
-            tickets.save()
+        ticket.save()
 
-            cart.tickets.add(tickets)
+        cart.tickets.add(ticket)
 
         return redirect('cart')
 
@@ -54,11 +59,9 @@ class CartView(View):
             try:
                 # Calculate the cost of a ticket
                 ticket_price = ticket.event.ticket_price
-                quantity = ticket.quantity
-                ticket_total_price = ticket_price * quantity
 
                 # Add to the total cost
-                total_price += ticket_total_price
+                total_price += ticket_price
             except UnboundLocalError:
                 total_price = 0
 
@@ -112,10 +115,10 @@ class CreateCheckoutSessionView(View):
                     'unit_amount': int(ticket.event.ticket_price * 100),
                     'product_data': {
                         'name': ticket.event.title,
-                        'images': [DOMAIN + ticket.event.image.url],
+                        'images': [ticket.event.image.url],
                     },
                 },
-                'quantity': ticket.quantity,
+                'quantity': 1,
             })
 
         checkout_session = stripe.checkout.Session.create(
@@ -152,3 +155,72 @@ class PurchasedTicketsView(View):
             'tickets': tickets,
         }
         return render(request, 'purchased_tickets.html', context)
+
+
+def download_ticket(request, ticket_id):
+    ticket = get_object_or_404(Tickets, id=ticket_id)
+    event = ticket.event
+    logo_path = finders.find('eventsapp/images/logo_new.png')
+    event_image_path = event.image.path
+
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter, topMargin=0)
+
+    styles = getSampleStyleSheet()
+    header_style = styles['Heading1']
+    header_style.backColor = colors.HexColor('#ff283e')
+
+    title_style = ParagraphStyle(
+        name="TitleStyle",
+        parent=styles['Heading2'],
+        fontSize=35,
+        textColor=colors.black,
+        spaceAfter=30,
+        spaceBefore=6,
+        bold=True,
+    )
+
+    info_style = ParagraphStyle(
+        name="InfoStyle",
+        parent=styles['Normal'],
+        fontSize=12,
+        textColor=colors.black,
+        spaceAfter=6,
+    )
+
+    elements = []
+
+    logo_image = Image(logo_path, width=6 * inch, height=0.48 * inch)
+
+    logo_table = Table([[logo_image]], colWidths=[8.5 * inch], rowHeights=[1.5 * inch])
+
+    logo_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#ff283e')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+
+    elements.append(logo_table)
+
+    event_image = Image(event_image_path, width=8.5 * inch, height=2.36 * inch)
+    elements.append(event_image)
+
+    elements.append(Spacer(1, 0.25 * inch))
+
+    title_text = Paragraph(event.title, title_style)
+    elements.append(title_text)
+
+    elements.append(Paragraph(f"#{ticket.id}", info_style))
+    elements.append(Paragraph(f"Full name: {ticket.user.get_full_name()}", info_style))
+    elements.append(Paragraph(f"Start: {event.start_time}", info_style))
+    elements.append(Paragraph(f"End: {event.end_time}", info_style))
+    elements.append(Paragraph(f"Address: {event.address}, {event.city}", info_style))
+
+    pdf.build(elements)
+
+    buffer.seek(0)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{ticket.id}_{event.title}.pdf"'
+    response.write(buffer.getvalue())
+
+    return response

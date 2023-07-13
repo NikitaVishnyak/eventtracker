@@ -23,6 +23,15 @@ class EventCategoriesViewSet(viewsets.ModelViewSet):
     queryset = EventCategories.objects.all()
     serializer_class = EventCategoriesSerializer
 
+    def list(self, request, *args, **kwargs):
+        categories = self.get_queryset().order_by('name')
+
+        context = {
+            'categories': categories,
+        }
+
+        return render(request, 'categories.html', context)
+
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             permission_classes = [IsAdminUser]
@@ -30,6 +39,25 @@ class EventCategoriesViewSet(viewsets.ModelViewSet):
             permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
+
+class CategoryEventsViewSet(viewsets.ModelViewSet):
+    queryset = EventCategories.objects.all()
+    serializer_class = EventCategoriesSerializer
+    lookup_field = 'slug'
+    paginate_by = 9
+
+    def list(self, request, *args, **kwargs):
+        instance = self.get_object()
+        events = Events.objects.filter(category=instance).order_by('-id')
+        paginator = Paginator(events, self.paginate_by)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'category': instance,
+            'page_obj': page_obj,
+        }
+
+        return render(request, 'category_events.html', context)
 
 class EventsViewSet(viewsets.ModelViewSet):
     queryset = Events.objects.all()

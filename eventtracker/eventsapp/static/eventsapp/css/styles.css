@@ -10,16 +10,19 @@ html, body {
 
 .header {
     background-color: #ff283e;
-    position: sticky;
+    position: fixed;
     top: 0;
+    width: 100%;
     z-index: 10;
 }
+
 
 h1 {
     color: #000;
     font-family: "Bebas Neue", sans-serif;
     font-size: 4.5rem;
     margin: 20px 0px 20px 0px;
+    padding-top: 20px;
     font-weight: bold;
 }
 
@@ -71,7 +74,7 @@ ul {
     width: 50px;
     height: 50px;
     display: inline-block;
-    position: sticky;
+    position: relative;
     top: 7.5px;
     right: 10px;
     float: right;
@@ -207,7 +210,7 @@ ul {
 
 .content {
     width: 80%;
-    margin: 0px auto;
+    margin: 65px auto;
     margin-bottom: 90px;
 }
 
@@ -326,6 +329,7 @@ input:focus {
     cursor: pointer;
     border-radius: 5px;
     text-decoration: none;
+    text-align: center;
 }
 
 .purchase-button:hover,.purchase-button:active,.purchase-button:focus {
@@ -409,7 +413,7 @@ fieldset {
     margin: 20px 10px 0px 10px;
     padding: 10px;
     max-width: 276px;
-    max-height: 405px;
+    max-height: 605px;
 }
 
 .event-container-link {
@@ -437,6 +441,7 @@ fieldset {
     border: 2px solid black;
     border-radius: 50px;
     text-decoration: none;
+    color: #000;
     height: 25px;
     width: 25px;
     margin: 10px 15px;
@@ -468,11 +473,6 @@ fieldset {
     align-items: center;
 }
 
-.purchase-button {
-    text-align: center;
-    width: 80%;
-}
-
 .sticky li {
     margin: 20px 0px 20px 0px;
 }
@@ -480,29 +480,32 @@ fieldset {
 
 
 .concrete-event-image {
-        width: 100%;
+        width: 142%;
         position: relative;
         display: flex;
         justify-content: center;
-
+        margin-left: -21%;
     }
 
 .concrete-event-image img {
     height: 400px;
-    width: 100%;
+    width: 142%;
     display: block;
     margin: 0 auto;
+
     object-fit: cover;
 }
 
 .concrete-event-category {
     position: absolute;
-    bottom: 10px;
-    left: -8px;
-    background-color: #fff;
+    bottom: 20px;
+    left: 150px;
+    background: rgba(255, 255, 255, 0.6);
     color: #000;
     padding: 5px 10px;
     text-decoration: none;
+    border-radius: 5px;
+    font-size: 15px;
 }
 
 .fullname_email_container {
@@ -602,10 +605,7 @@ fieldset {
 .cart-ticket {
     display: flex;
     align-items: center;
-}
-
-.cart-ticket i {
-    margin-left: auto;
+    justify-content: space-between;
 }
 
 .cross-button {
@@ -615,9 +615,84 @@ fieldset {
     cursor: pointer;
     font-size: 40px;
     color: #ff283e;
-    margin-left: auto;
 }
 
-.cart-ticket li:nth-child(3) {
-    margin-left: auto;
+.soldout {
+    font-family: "Bebas Neue", sans-serif;
+    color: #ff283e;
+    font-size: 40px;
+    padding: 0;
+    margin: 0;
+}
+
+.city-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.city-container a {
+    color: #ff283e;
+    text-decoration: none;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 960px;
+
+}
+
+.category_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    margin: 5px;
+    text-align: center;
+    border-radius: 20px;
+    border: 1px #e7e7e7 solid;
+    text-decoration: none;
+    color: #000;
+}
+
+.category_container:hover {
+    background: #f2f2f2;
+    transition-duration: 500ms;
+}
+
+.category_container:active {
+    background: #ff283e;
+    transition-duration: 100ms;
+}
+
+.ul_container {
+    display: flex;
+    justify-content: center;
+}
+
+i.fa.fa-magnifying-glass {
+    position: absolute;
+    margin-left: 10px;
+    font-size: 23px;
+    color: #fff;
+}
+
+.no_results {
+    margin-top: 15%;
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.purchased_ticket {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.purchased_ticket a {
+    text-decoration: none;
+    color: #ff283e;
 }

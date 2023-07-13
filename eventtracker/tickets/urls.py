@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from tickets.views import AddToCartView, CartView, RemoveFromCartView, CreateCheckoutSessionView, SuccessView, \
-    CancelledView, PurchasedTicketsView
+    CancelledView, PurchasedTicketsView, download_ticket
 
 urlpatterns = [
     path('event/<slug:slug>/add-to-cart/', AddToCartView.as_view(), name='add_to_cart'),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('create-checkout-session/', CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
     path('cancel/', CancelledView.as_view(), name='cancelled'),
     path('success/', SuccessView.as_view(), name='success'),
-    path('my-tickets/', PurchasedTicketsView.as_view(), name='purchased_tickets')
+    path('my-tickets/', PurchasedTicketsView.as_view(), name='purchased_tickets'),
+    path('tickets/<int:ticket_id>/download/', download_ticket, name='download_ticket'),
 ]

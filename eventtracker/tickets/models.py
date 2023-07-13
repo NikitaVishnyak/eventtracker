@@ -9,7 +9,6 @@ class Tickets(models.Model):
     event = models.ForeignKey('eventsapp.Events', on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
     is_paid = models.BooleanField(default=False)
 

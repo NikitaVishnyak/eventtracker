@@ -6,7 +6,7 @@
 
     <div class="concrete-event-image">
         <img src="{{ event.image.url }}" alt="Concrete Event Image">
-        <a href="#" class="concrete-event-category">{{ event.category }}</a>
+        <a href="{{ event.category.get_absolute_url }}" class="concrete-event-category">{{ event.category }}</a>
     </div>
 <div class="sticky">
         <ul>
@@ -14,10 +14,17 @@
             <li>start: {{ event.start_time }}</li>
             <li>end: {{ event.end_time }}</li>
             <li>price: {{ event.ticket_price }}€</li>
-            <li>tickets left: {{ available_tickets }}</li>
+            {% if available_tickets > 0 %}
+                <li>tickets left: {{ available_tickets }}</li>
+            {% endif %}
         </ul>
         {% if available_tickets > 0 %}
-            <a href="{{ event.get_add_to_cart_url }}" class="purchase-button">ADD TO CART</a>
+            <form class="add_to_cart_form" action="{{ event.get_add_to_cart_url }}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="purchase-button">ADD TO CART</button>
+            </form>
+        {% else %}
+            <p class="soldout">SOLD OUT!</p>
         {% endif %}
     </div>
     <div class="content-left">
@@ -29,17 +36,4 @@
         </ul>
         {{ map_html|safe }}
     </div>
-<!--    <div class="sticky">-->
-<!--        <ul>-->
-<!--            <li>{{ event.city }}</li>-->
-<!--            <li>start: {{ event.start_time }}</li>-->
-<!--            <li>end: {{ event.end_time }}</li>-->
-<!--            <li>tickets left: {{ available_tickets }}</li>-->
-<!--        </ul>-->
-<!--        {% if available_tickets > 0 %}-->
-<!--            <a href="{{ event.get_add_to_cart_url }}">Purchase tickets</a>-->
-<!--        {% endif %}-->
-<!--    </div>-->
-
-
 {% endblock %}
