@@ -131,6 +131,7 @@ GitHub.sublime-settings
 
 .idea/
 
+migrations/
 
 .vagrant*
 bin
