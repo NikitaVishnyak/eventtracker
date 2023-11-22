@@ -32,7 +32,7 @@ cd eventtracker
 pip install requirements.txt
 ```
 
-<p>4. Run the application:</p>
+<p>3. Run the application:</p>
 
 ```
 py manage.py runserver
